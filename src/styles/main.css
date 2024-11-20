@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Lato:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@layer components{
+    .btn{
+        @apply  font-medium border-transparent rounded-md py-1 px-2.5 bg-btn-color-primary text-secundary-color hover:bg-btn-color-secondary hover:text-white transition duration-300;
+    }
+  }
+
+ 
