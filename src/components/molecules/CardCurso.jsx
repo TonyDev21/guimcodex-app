@@ -4,6 +4,7 @@ const CardCurso = ({ image, title, hours, description, price, courseId }) => {
   return (
     <Link
       to={`/cursos/${courseId}`}  // Cambia "#" por la ruta dinámica usando courseId
+      state={{ image, price, title }} // Pasa los datos dinámicos a través de state
       className="rounded-lg shadow-lg shadow-secundary-color bg-secundary-color cursor-pointer hover:scale-105 transform transition duration-300"
     >
       <div className="h-48 flex items-center justify-center">

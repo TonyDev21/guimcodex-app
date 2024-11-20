@@ -1,7 +1,12 @@
 import {  Link } from "react-router-dom"
 import { FaShoppingCart } from "react-icons/fa";
+import { useContext } from "react";
+import { CartContext } from "../../../context/CartContext";
 
 const MainMenu = ({ isAuthenticated}) => {
+
+    const {state} = useContext(CartContext)
+
     return (
         <>
             <ul id="menu" className="lg:flex hidden pt-4 flex-grow lg:flex-grow-0 gap-x-8 text-2xl lg:justify-center lg:items-center absolute lg:relative lg:top-0 top-20 
@@ -21,7 +26,7 @@ const MainMenu = ({ isAuthenticated}) => {
                             <li className="mb-7 lg:mb-0"><Link to="/biblioteca" className="font-montserrat font-normal text-white hover:text-btn-color-primary transition duration-200">Biblioteca</Link></li>
                             <li className="mb-7 lg:mb-0">
                                 <Link to="/cart" className="font-montserrat font-normal text-white hover:text-btn-color-primary transition duration-200 flex items-center">
-                                    <FaShoppingCart className="mr-1" /> <span>(2)</span>
+                                    <FaShoppingCart className="mr-1" /> <span>({state.cart.length})</span>
                                 </Link>
                             </li>
                             <li className="mb-7 lg:mb-0"><Link to="/perfil" className="font-montserrat font-normal text-white hover:text-btn-color-primary transition duration-200">Perfil</Link></li>     
