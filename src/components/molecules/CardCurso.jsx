@@ -19,7 +19,7 @@ const CardCurso = ({ image, title, hours, description, price, courseId }) => {
           {title}
         </h4>
         <span className="text-sm text-light-color font-semibold block mb-1">
-          {hours} horas de práctica
+          {hours / 60} horas de práctica
         </span>
         <p className="text-sm text-light-color mb-4">
           {description}

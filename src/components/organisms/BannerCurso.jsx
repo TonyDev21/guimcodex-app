@@ -1,48 +1,55 @@
 import { useContext } from "react";
-import { useParams, useLocation } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 
-const BannerCurso = () => {
-  const { courseId } = useParams(); // Captura el parámetro de la URL
+const BannerCurso = ({ course }) => {
   const { dispatch, state: cartState } = useContext(CartContext); // Accede al estado del carrito
-  const { state } = useLocation(); // Captura los datos pasados desde CardCurso
 
   const handleAddToCart = () => {
     // Validar si el curso ya está en el carrito
-    const courseExists = cartState.cart.some((course) => course.id === courseId);
+    const courseExists = cartState.cart.some((item) => item.id === course._id);
     if (courseExists) {
       alert("Este curso ya está en el carrito.");
       return;
     }
 
-    const course = {
-      id: courseId,
-      name: courseId.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase()),
-      price: parseFloat(state?.price) || 4.99, // Convierte a número o usa un valor por defecto
-      img: state?.image || "/default-image.png",
+    // Crear el objeto del curso a agregar al carrito
+    const courseToAdd = {
+      id: course._id,
+      name: course.title,
+      price: parseFloat(course.price),
+      img: course.bannerUrl || "/default-banner.png", // Usar el banner del curso o un valor por defecto
     };
 
-    dispatch({ type: "ADD_TO_CART", payload: course });
+    dispatch({ type: "ADD_TO_CART", payload: courseToAdd }); // Despacha la acción al contexto
     alert("Curso agregado al carrito!");
   };
 
   return (
-    <div className="relative bg-banner-js bg-cover bg-center bg-no-repeat h-full">
-      <div className="absolute inset-0 bg-black opacity-70"></div>
+    <div
+      className="relative bg-cover bg-center bg-no-repeat h-full"
+      style={{
+        backgroundImage: `url(${course.bannerUrl || "/default-banner.png"})`, // Usar el banner del curso o un valor por defecto
+      }}
+    >
       {/* Superposición oscura */}
+      <div className="absolute inset-0 bg-black opacity-70"></div>
+
       <div className="relative py-20 container mx-auto h-full flex flex-col justify-center items-center text-center space-y-8">
-        <h1 className="text-4xl font-bold text-extra-color">
-          {courseId.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase())}
-        </h1>
+        {/* Título del curso */}
+        <h1 className="text-4xl font-bold text-extra-color">{course.title}</h1>
+
+        {/* Descripción breve */}
         <p className="text-lg font-semibold mt-2 text-extra-color">
-          JavaScript es un lenguaje de programación que permite agregar
-          interactividad y dinamismo a las páginas web.
+          {course.description}
         </p>
+
+        {/* Botón para comprar */}
         <button
           className="btn text-2xl py-3 px-4 mt-6 cursor-pointer"
           onClick={handleAddToCart}
         >
-          Comprar s/4.99
+          Comprar {course.currency}
+          {parseFloat(course.price).toFixed(2)} {/* Precio del curso */}
         </button>
       </div>
     </div>

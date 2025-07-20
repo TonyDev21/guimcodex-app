@@ -30,12 +30,12 @@ const Pago = () => {
                 <Link to="/cart" className="text-light-color">Editar</Link>
               </div>
               <div className="bg-btn-color-primary font-medium">
-                <CardDetailItem title="Javascript: De novato a Ninja" price="s/4.99"/>
-                <CardDetailItem title="Python: De novato a Ninja" price="s/4.99"/>
+                <CardDetailItem title="Javascript" price="s/5.00"/>
+                <CardDetailItem title="Python" price="s/5.00"/>
               </div>
               <div className="flex justify-between px-4 py-2">
                 <p className="inline text-light-color text-sm font-bold ">Total de la orden</p>
-                <span className="text-light-color text-sm font-bold ">s/9.98</span>
+                <span className="text-light-color text-sm font-bold ">s/10.00</span>
               </div>
             </div>
             

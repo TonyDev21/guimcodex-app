@@ -1,9 +1,9 @@
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
-import './styles/main.css'
 import router from './components/router/Router'
 import AuthProvider from './context/AuthProvider'
 import { CartProvider } from './context/CartContext'
+import './styles/main.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   

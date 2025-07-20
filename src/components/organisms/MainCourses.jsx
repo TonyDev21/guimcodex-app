@@ -1,69 +1,48 @@
-import CardCurso from "../molecules/CardCurso"
+/* import CardCurso from "../molecules/CardCurso"
 import imgJS from "../../assets/cursoJavascript.svg"
 import imgPython from "../../assets/cursoPython.svg"
 import imgJava from "../../assets/cursoJava.svg"
 import imgReact from "../../assets/cursoReact.svg"
 import imgNodeJs from "../../assets/cursoNodeJs.svg"
-import imgTailwind from "../../assets/cursoTailwind.svg"
+import imgTailwind from "../../assets/cursoTailwind.svg" */
+
+import { useState, useEffect } from 'react';
+import CardCurso from "../molecules/CardCurso";
+import axios from 'axios'; 
 
 
 const MainCourses = () => {
+
+  const [courses, setCourses] = useState([]); // Estado para guardar los cursos
+
+  // Obtener cursos desde la API cuando el componente se monte
+  useEffect(() => {
+    // Realizamos la solicitud GET para obtener los cursos
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get('http://localhost:3100/api/courses'); // Reemplaza con tu URL de backend
+        setCourses(response.data); // Guardamos los cursos obtenidos en el estado
+      } catch (error) {
+        console.error('Error fetching courses:', error); // Manejamos posibles errores
+      }
+    };
+
+    fetchCourses(); // Llamamos a la función para obtener los cursos
+  }, []); 
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 min-h-[450px]">
+      {courses.map((course) => (
         <CardCurso
-            image={imgJS}
-            title="Javascript: De Novato a Ninja"
-            hours="2"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt sequi laborum dolores excepturi ullam fugit."
-            price="s/4.99"
-            courseId="javascript-de-novato-a-ninja" // Identificador único
+          key={course._id} 
+          image={course.imageUrl} 
+          title={course.title}
+          hours={course.sections.reduce((acc, section) => acc + section.classes.reduce((sum, clase) => sum + clase.duration, 0), 0)} // Calculamos el total de horas
+          description={course.description}
+          price={`${course.currency}${course.price.toFixed(2)}`} // Formateamos el precio
+          courseId={course._id} // Usamos el ID único para la URL dinámica
         />
-        {/* Curso 02*/}
-        <CardCurso
-            image={imgPython}
-            title="Python: De Novato a Ninja"
-            hours="2"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt sequi laborum dolores excepturi ullam fugit."
-            price="s/4.99"
-            courseId="python-de-novato-a-ninja" // Identificador único
-        />
-        {/* Curso 03*/}
-        <CardCurso
-            image={imgJava}
-            title="Java: De Novato a Ninja"
-            hours="2"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt sequi laborum dolores excepturi ullam fugit."
-            price="s/4.99"
-            courseId="java-de-novato-a-ninja" // Identificador único
-        />
-        {/* Curso 04*/}
-        <CardCurso
-            image={imgReact}
-            title="ReactJS: De Novato a Ninja"
-            hours="2"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt sequi laborum dolores excepturi ullam fugit."
-            price="s/4.99"
-            courseId="reactjs-de-novato-a-ninja" // Identificador único
-        />
-        {/* Curso 05*/}
-        <CardCurso
-            image={imgNodeJs}
-            title="NodeJS: De Novato a Ninja"
-            hours="2"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt sequi laborum dolores excepturi ullam fugit."
-            price="s/4.99"
-            courseId="nodejs-de-novato-a-ninja" // Identificador único
-        />
-        {/* Curso 06*/}
-        <CardCurso
-            image={imgTailwind}
-            title="Tailwind CSS: De Novato a Ninja"
-            hours="2"
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt sequi laborum dolores excepturi ullam fugit."
-            price="s/4.99"
-            courseId="tailwindcss-de-novato-a-ninja" // Identificador único
-        />
-    
+      ))}
     </div>
   )
 }
